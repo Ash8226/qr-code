@@ -53,8 +53,10 @@
             <br><br>
             <button type="button" onclick="generatePayNowQR()">Generate QR Code</button>
         </form>
-        <canvas id="qrCanvas"></canvas>
-        <img src="Ashirel_Logo.jpg" alt="Ashirel Business Solutions Logo">
+        <div style="text-align: center; margin-top: 20px;">
+            <canvas id="qrCanvas"></canvas>
+        </div>
+        <img src="Ashirel_Logo.jpg" alt="Ashirel Business Solutions Logo" style="display: block; margin: 0 auto;">
         <p class="footer">Powered by Ashirel Business Solutions</p>
     </div>
 
@@ -63,7 +65,7 @@
         function generatePayNowQR() {
             const amount = parseFloat(document.getElementById("amount").value).toFixed(2); // Ensure 2 decimal places
             const phoneNumber = "91820458"; // Replace with your actual phone number
-        
+
             if (amount > 0) {
                 // Construct PayNow QR data without checksum
                 let paynowData = `
@@ -76,11 +78,11 @@
                     5802SG
                     6304
                 `.replace(/\s+/g, ""); // Remove spaces for valid QR data format
-        
+
                 // Calculate and append checksum
                 const checksum = calculateChecksum(paynowData);
                 paynowData += checksum;
-        
+
                 // Generate QR code
                 const qrCanvas = document.getElementById("qrCanvas");
                 qrCanvas.style.display = "block"; // Show the QR canvas if hidden
@@ -91,7 +93,7 @@
                 alert("Please enter a valid amount.");
             }
         }
-        
+
         // CRC-16/CCITT-FALSE Algorithm to calculate checksum
         function calculateChecksum(data) {
             let crc = 0xFFFF;
