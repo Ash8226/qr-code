@@ -61,9 +61,10 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
         function generatePayNowQR() {
-            const amount = document.getElementById("amount").value;
+            const amount = parseFloat(document.getElementById("amount").value).toFixed(2); // Ensure 2 decimal places
             const phoneNumber = "91820458"; // Replace with your actual phone number
-            if (amount) {
+
+            if (amount > 0) {
                 // Construct PayNow QR data
                 const paynowData = `
                     000201010211
@@ -71,11 +72,11 @@
                     0208MOBILE
                     2304${phoneNumber}
                     5303704
-                    54${amount.length < 2 ? `0${amount}` : amount}
+                    54${amount.toString()}
                     5802SG
                     6304
                 `.replace(/\s+/g, ""); // Remove spaces for valid QR data format
-        
+
                 // Generate QR code
                 const qrCanvas = document.getElementById("qrCanvas");
                 qrCanvas.style.display = "block"; // Show the QR canvas if hidden
