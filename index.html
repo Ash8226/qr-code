@@ -89,6 +89,8 @@
                 QRCode.toCanvas(qrCanvas, paynowData, function (error) {
                     if (error) console.error(error);
                 });
+                
+                console.log(paynowData); // Print the generated QR data to the console
             } else {
                 alert("Please enter a valid amount.");
             }
