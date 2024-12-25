@@ -65,9 +65,9 @@
         function generatePayNowQR() {
             const amount = parseFloat(document.getElementById("amount").value).toFixed(2); // Ensure 2 decimal places
             const phoneNumber = "91820458"; // Replace with your actual phone number
-
+        
             if (amount > 0) {
-                // Construct PayNow QR data without checksum
+                // Construct PayNow SGQR data without checksum
                 let paynowData = `
                     000201010211
                     26580013SG.PAYNOW01012021440009+SG.PAYNOW.P2P
@@ -78,11 +78,11 @@
                     5802SG
                     6304
                 `.replace(/\s+/g, ""); // Remove spaces for valid QR data format
-
+        
                 // Calculate and append checksum
                 const checksum = calculateChecksum(paynowData);
-                paynowData += checksum;
-
+                paynowData = paynowData.replace("6304", "63" + checksum); // Replace placeholder with calculated checksum
+        
                 // Generate QR code
                 const qrCanvas = document.getElementById("qrCanvas");
                 qrCanvas.style.display = "block"; // Show the QR canvas if hidden
@@ -93,7 +93,7 @@
                 alert("Please enter a valid amount.");
             }
         }
-
+        
         // CRC-16/CCITT-FALSE Algorithm to calculate checksum
         function calculateChecksum(data) {
             let crc = 0xFFFF;
