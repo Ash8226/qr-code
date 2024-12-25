@@ -31,6 +31,9 @@
         }
         img {
             max-width: 100px;
+            margin: 20px auto;
+        }
+        canvas {
             margin-top: 20px;
         }
         p.footer {
@@ -48,19 +51,31 @@
             <label for="amount">Amount (SGD):</label><br>
             <input type="number" id="amount" name="amount" min="0.01" step="0.01" required>
             <br><br>
-            <button type="button" onclick="redirectToPayNow()">Submit</button>
+            <button type="button" onclick="generatePayNowQR()">Generate QR Code</button>
         </form>
-        <img src="Ashirel Logo.jpg" alt="Ashirel Business Solutions Logo">
+        <canvas id="qrCanvas"></canvas>
+        <img src="Ashirel_Logo.jpg" alt="Ashirel Business Solutions Logo">
         <p class="footer">Powered by Ashirel Business Solutions</p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
-        function redirectToPayNow() {
+        function generatePayNowQR() {
             const amount = document.getElementById("amount").value;
             if (amount) {
-                // Generate PayNow URL
-                const paynowURL = `https://paynowqr.sg/pay?receiver=91820458&amount=${amount}`;
-                window.location.href = paynowURL; // Redirect to PayNow
+                const qrCanvas = document.getElementById("qrCanvas");
+                qrCanvas.style.display = "block"; // Show the QR canvas if hidden
+                
+                // PayNow QR data with dynamic amount
+                const paynowData = `https://paynowqr.sg/pay?receiver=91820458&amount=${amount}`;
+                
+                // Clear existing QR code (if any)
+                qrCanvas.getContext("2d").clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+                
+                // Generate the new QR code
+                QRCode.toCanvas(qrCanvas, paynowData, function (error) {
+                    if (error) console.error(error);
+                });
             } else {
                 alert("Please enter a valid amount.");
             }
