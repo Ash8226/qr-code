@@ -73,7 +73,7 @@
                     26580013SG.PAYNOW01012021440009+SG.PAYNOW.P2P
                     0208MOBILE
                     2304${phoneNumber}
-                    5303704
+                    5303360
                     54${amount}
                     5802SG
                     6304
@@ -83,14 +83,15 @@
                 const checksum = calculateChecksum(paynowData);
                 paynowData = paynowData.replace("6304", "63" + checksum); // Replace placeholder with calculated checksum
         
+                // Log for debugging
+                console.log("Corrected paynowData:", paynowData);
+        
                 // Generate QR code
                 const qrCanvas = document.getElementById("qrCanvas");
                 qrCanvas.style.display = "block"; // Show the QR canvas if hidden
                 QRCode.toCanvas(qrCanvas, paynowData, function (error) {
                     if (error) console.error(error);
                 });
-                
-                console.log(paynowData); // Print the generated QR data to the console
             } else {
                 alert("Please enter a valid amount.");
             }
